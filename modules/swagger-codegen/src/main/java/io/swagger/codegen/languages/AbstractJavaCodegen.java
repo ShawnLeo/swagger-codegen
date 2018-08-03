@@ -93,7 +93,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         super();
         supportsInheritance = true;
         modelTemplateFiles.put("model.mustache", ".java");
-        apiTemplateFiles.put("api.mustache", ".java");
+//        apiTemplateFiles.put("api.mustache", ".java");
         apiTestTemplateFiles.put("api_test.mustache", ".java");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
@@ -488,6 +488,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
+    public String apiFileFolder(String templateName) {
+        return outputFolder + "/" + sourceFolder + "/" + apiPackage(templateName).replace('.', '/');
+    }
+
+    @Override
     public String apiTestFileFolder() {
         return outputFolder + "/" + testFolder + "/" + apiPackage().replace('.', '/');
     }
@@ -872,9 +877,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
-        if(codegenModel.description != null) {
-            codegenModel.imports.add("ApiModel");
-        }
+//        if(codegenModel.description != null) {
+//            codegenModel.imports.add("ApiModel");
+//        }
         if (codegenModel.discriminator != null && additionalProperties.containsKey("jackson")) {
             codegenModel.imports.add("JsonSubTypes");
             codegenModel.imports.add("JsonTypeInfo");
@@ -908,11 +913,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        if(!BooleanUtils.toBoolean(model.isEnum)) {
-            // needed by all pojos, but not enums
-            model.imports.add("ApiModelProperty");
-            model.imports.add("ApiModel");
-        }
+//        if(!BooleanUtils.toBoolean(model.isEnum)) {
+//            // needed by all pojos, but not enums
+//            model.imports.add("ApiModelProperty");
+//            model.imports.add("ApiModel");
+//        }
     }
 
     @Override

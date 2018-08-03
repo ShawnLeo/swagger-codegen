@@ -1,0 +1,14 @@
+package {{servicePackage}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+{{>generatedAnnotation}}
+{{#operations}}
+public interface {{classname}}Service{
+{{#operation}}
+
+    {{>returnTypes}} {{operationId}}({{#allParams}}{{>optionalDataType}} {{paramName}} {{#hasMore}},{{/hasMore}}{{/allParams}});
+{{/operation}}
+}
+{{/operations}}

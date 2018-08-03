@@ -73,7 +73,7 @@ public class DefaultCodegen {
     protected Set<String> reservedWords = new HashSet<String>();
     protected Set<String> languageSpecificPrimitives = new HashSet<String>();
     protected Map<String, String> importMapping = new HashMap<String, String>();
-    protected String modelPackage = "", apiPackage = "", fileSuffix;
+    protected String modelPackage = "", apiPackage = "", apiServicePackage = "", serviceImplPackage = "", fileSuffix;
     protected String modelNamePrefix = "", modelNameSuffix = "";
     protected String testPackage = "";
     protected Map<String, String> apiTemplateFiles = new HashMap<String, String>();
@@ -461,6 +461,16 @@ public class DefaultCodegen {
         return modelPackage;
     }
 
+    public String apiPackage(String templateName) {
+        if (templateName.contains("ServiceImpl")) {
+            return serviceImplPackage;
+        } else if (templateName.contains("Service")) {
+            return apiServicePackage;
+        } else {
+            return apiPackage;
+        }
+    }
+
     public String apiPackage() {
         return apiPackage;
     }
@@ -515,6 +525,10 @@ public class DefaultCodegen {
 
     public Map<String, String> modelTemplateFiles() {
         return modelTemplateFiles;
+    }
+
+    public String apiFileFolder(String templateName) {
+        return outputFolder + "/" + apiPackage(templateName).replace('.', '/');
     }
 
     public String apiFileFolder() {
@@ -3356,7 +3370,7 @@ public class DefaultCodegen {
 
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
-        return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
+        return apiFileFolder(templateName) + File.separator + toApiFilename(tag) + suffix;
     }
 
     /**
