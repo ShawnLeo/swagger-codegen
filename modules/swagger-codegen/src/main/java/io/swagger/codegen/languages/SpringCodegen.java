@@ -285,6 +285,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                 }
             } else {
                 apiTemplateFiles.put("apiController.mustache", "Controller.java");
+                supportingFiles.add(new SupportingFile("baseController.mustache",
+                        (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "BaseController.java"));
                 apiTemplateFiles.put("apiService.mustache", "Service.java");
                 if (isInit) {
                     apiTemplateFiles.put("apiServiceImpl.mustache", "ServiceImpl.java");
