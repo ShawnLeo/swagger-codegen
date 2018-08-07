@@ -252,10 +252,10 @@ public class SpringCodegen extends AbstractJavaCodegen
                 }
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
                         (sourceFolder + File.separator + util).replace(".", java.io.File.separator), "RFC3339DateFormat.java"));
-                supportingFiles.add(new SupportingFile("UserContext.mustache",
-                        (sourceFolder + File.separator + util).replace(".", java.io.File.separator), "UserContext.java"));
-                supportingFiles.add(new SupportingFile("UserContextHolder.mustache",
-                        (sourceFolder + File.separator + util).replace(".", java.io.File.separator), "UserContextHolder.java"));
+//                supportingFiles.add(new SupportingFile("UserContext.mustache",
+//                        (sourceFolder + File.separator + util).replace(".", java.io.File.separator), "UserContext.java"));
+//                supportingFiles.add(new SupportingFile("UserContextHolder.mustache",
+//                        (sourceFolder + File.separator + util).replace(".", java.io.File.separator), "UserContextHolder.java"));
                 if (isInit) {
                     supportingFiles.add(new SupportingFile("application.mustache",
                             ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
@@ -318,8 +318,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                     supportingFiles.add(new SupportingFile("FilterConfiguration.mustache",
                             (sourceFolder + File.separator + initConfigPackage).replace(".", java.io.File.separator), "FilterConfiguration.java"));
                 }
-                supportingFiles.add(new SupportingFile("AuthenticationFilter.mustache",
-                        (sourceFolder + File.separator + filter).replace(".", java.io.File.separator), "AuthenticationFilter.java"));
+//                supportingFiles.add(new SupportingFile("AuthenticationFilter.mustache",
+//                        (sourceFolder + File.separator + filter).replace(".", java.io.File.separator), "AuthenticationFilter.java"));
             }
         }
         
