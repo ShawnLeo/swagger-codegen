@@ -39,6 +39,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected String title = "swagger-petstore";
     protected String configPackage;
     protected String initConfigPackage;
+    protected String dockerDir = "docker-dir";
     protected String util, filter;
     protected String basePackage;
     protected boolean interfaceOnly = false;
@@ -59,8 +60,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         outputFolder = "generated-code/javaSpring";
         apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaSpring";
-        groupId = "com.meimeitech";
-        artifactId = "meme2c";
+//        groupId = "com.meimeitech";
+//        artifactId = "meme2c";
         apiPackage = groupId + "." + artifactId +  ".swagger.controller";
         apiServicePackage = groupId + "." + artifactId +  ".swagger.service";
         serviceImplPackage = groupId + "." + artifactId +  ".service";
@@ -126,8 +127,33 @@ public class SpringCodegen extends AbstractJavaCodegen
         return "Generates a Java SpringBoot Server application using the SpringFox integration.";
     }
 
+    private void adapter() {
+        groupId = additionalProperties.get("groupId") == null ? "com.meimeitech" : (String)additionalProperties.get("groupId");
+        artifactId = additionalProperties.get("artifactId") == null ? "meme2c" : (String)additionalProperties.get("artifactId");
+        apiPackage = groupId + "." + artifactId +  ".swagger.controller";
+        apiServicePackage = groupId + "." + artifactId +  ".swagger.service";
+        serviceImplPackage = groupId + "." + artifactId +  ".service";
+        modelPackage = groupId + "." + artifactId +  ".swagger.model";
+        invokerPackage = groupId + "." + artifactId + ".swagger.api";
+        basePackage = groupId + "." + artifactId;
+        util = groupId + "." + artifactId + ".swagger.util";
+        filter = groupId + "." + artifactId + ".swagger.filter";
+        configPackage = groupId + "." + artifactId + ".swagger.configuration";
+        initConfigPackage = groupId + "." + artifactId + ".configuration";
+
+        additionalProperties.put(CONFIG_PACKAGE, configPackage);
+        additionalProperties.put(INIT_CONFIG_PACKAGE, initConfigPackage);
+        additionalProperties.put(CONFIG_UTIL, util);
+        additionalProperties.put("filter", filter);
+        additionalProperties.put(BASE_PACKAGE, basePackage);
+        additionalProperties.put("servicePackage", apiServicePackage);
+        additionalProperties.put("serviceImplPackage", serviceImplPackage);
+    }
+
+
     @Override
     public void processOpts() {
+        adapter();
         Object init = additionalProperties.get("init");
         boolean isInit = init != null && Boolean.parseBoolean(init.toString());
         // Process java8 option before common java ones to change the default dateLibrary to java8.
@@ -238,6 +264,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 //        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         if (isInit) {
             supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
+            supportingFiles.add(new SupportingFile("dockerfile.mustache", dockerDir, "Dockerfile"));
+            supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         }
 
